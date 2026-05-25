@@ -4,8 +4,46 @@
 using namespace std;
 
 void addStudent(int &count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
-void showStudent(int &count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
+void showStudent(int count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[])
+{
+    if(count==0)
+    {
+        cout<<"No student data to show...\n";
+        return;
+    }
+    
+    cout<<"===================STUDENT DATA====================";
+    for(int i=0;i<count;i++)
+    {
+        cout << "\nStudent " << i + 1 << ":\n";
+        cout<<fixed;
+        cout.width(20);
 
+        cout<<left<<"Student's name ";
+        cout<<" : ";
+        
+        cout<<NAME[i]<<endl;
+        cout.width(20);
+        cout<<left<<"Student's Department : ";
+        
+        cout<<DEPT[i]<<endl;
+        cout.width(20);
+        cout<<left<<"Student's ID ";
+        
+        cout<<" : ";
+        
+        cout<<ID[i]<<endl;
+        cout.width(20);
+        cout<<left<<"Student's CGPA ";
+        
+        cout<<" : ";
+        cout.precision(2);
+        cout<<CGPA[i]<<endl;
+        cout<<endl;
+    }
+    cout<<"===================================================";
+    cout<<endl;
+}
 
 int main()
 {
@@ -15,8 +53,8 @@ int main()
     float CGPA[50];
     int count=0;
     
-    
     addStudent(count,NAME,DEPT,ID,CGPA);
+    showStudent(count,NAME,DEPT,ID,CGPA);
     return 0;
 }
 
@@ -68,25 +106,3 @@ void addStudent(int &count,char NAME[][30],char DEPT[][25],char ID[][25],float C
     count++;
 }
 
-void showStudent(int &count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[])
-{
-    cout<<"===================STUDENT DATA====================\n";
-    for(int i=0;i<count;i++)
-    {
-        cout<<fixed;
-        cout<<left<<"Student's name : ";
-        cout.width(12);
-        cout<<NAME[i]<<endl;
-        cout<<left<<"Student's Department : ";
-        cout.width(12);
-        cout<<DEPT[i]<<endl;
-        cout<<left<<"Student's ID : ";
-        cout.width(12);
-        cout<<ID[i]<<endl;
-        cout<<left<<"Student's CGPA : ";
-        cout.width(12);
-        cout<<CGPA[i]<<endl;
-    }
-    cout<<"===================================================";
-    cout<<endl;
-}
