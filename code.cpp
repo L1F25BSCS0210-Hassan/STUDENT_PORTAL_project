@@ -3,7 +3,7 @@
 #include<cstring>
 using namespace std;
 
-void addStudent(int &count,char NAME[][30],char DEPT[][25],char &ID[][25],float &CGPA[]);
+void addStudent(int &count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
 
 int main()
 {
@@ -19,11 +19,11 @@ int main()
 }
 
 
-void addStudent(int &count,char NAME[][30],char DEPT[][25],char &ID[][25],float &CGPA[])
+void addStudent(int &count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[])
 {
     char name[50];
     char dept[30];
-    int id;
+    char id[25];
     float cgpa;
     int i=0;
     
@@ -47,13 +47,18 @@ void addStudent(int &count,char NAME[][30],char DEPT[][25],char &ID[][25],float 
         DEPT[count][i]=dept[i];
         i++;
     }
-    DEPT[i]='\0';
+    DEPT[count][i]='\0';
     
     i=0;
     cout<<"Enter student's ID:\n";
     cin>>id;
+    while(id[i]!='\0')
+    {
+        ID[count][i]=id[i];
+        i++;
+    }
+    ID[count][i]='\0';
     
-    ID[count]=id;
     cout<<"Enter student's CGPA: \n";
     cin>>cgpa;
     CGPA[count]=cgpa;
