@@ -4,6 +4,8 @@
 using namespace std;
 
 void addStudent(int &count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
+void showStudent(int &count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
+
 
 int main()
 {
@@ -64,4 +66,27 @@ void addStudent(int &count,char NAME[][30],char DEPT[][25],char ID[][25],float C
     CGPA[count]=cgpa;
     
     count++;
+}
+
+void showStudent(int &count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[])
+{
+    cout<<"===================STUDENT DATA====================\n";
+    for(int i=0;i<count;i++)
+    {
+        cout<<fixed;
+        cout<<left<<"Student's name : ";
+        cout.width(12);
+        cout<<NAME[i]<<endl;
+        cout<<left<<"Student's Department : ";
+        cout.width(12);
+        cout<<DEPT[i]<<endl;
+        cout<<left<<"Student's ID : ";
+        cout.width(12);
+        cout<<ID[i]<<endl;
+        cout<<left<<"Student's CGPA : ";
+        cout.width(12);
+        cout<<CGPA[i]<<endl;
+    }
+    cout<<"===================================================";
+    cout<<endl;
 }
