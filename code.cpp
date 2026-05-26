@@ -214,6 +214,7 @@ void searchStudent(int choice,int &count,char searchNAME[],char searchID[],char 
 
 void deptFilter(int &count,char searchDEPT[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[])
 {
+    cout<<"=================STUDENTS OF THE DEPT=================\n";
     for(int i=0;i<count;i++)
     {
         if(strcmp(searchDEPT,DEPT[i])==0)
@@ -225,10 +226,7 @@ void deptFilter(int &count,char searchDEPT[],char NAME[][30],char DEPT[][25],cha
             cout<<" : ";
                 
             cout<<NAME[i]<<endl;
-            cout.width(20);
-            cout<<left<<"Student's Department : ";
-                
-            cout<<DEPT[i]<<endl;
+            
             cout.width(20);
             cout<<left<<"Student's ID ";
                 
@@ -241,6 +239,7 @@ void deptFilter(int &count,char searchDEPT[],char NAME[][30],char DEPT[][25],cha
             cout<<" : ";
             cout.precision(2);
             cout<<CGPA[i]<<endl;
+            cout<<"-----------------------------------------\n";
         }
     }     
 }
