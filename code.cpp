@@ -8,7 +8,7 @@ void showStudent(int count,char NAME[][30],char DEPT[][25],char ID[][25],float C
 void searchStudent(int choice,int &count,char searchNAME[],char searchID[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
 void deptFilter(int &count,char searchDEPT[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
 void grow(int *&arr,int &size);
-void grow(int *&arr,int &size);
+void shrink(int *&arr,int &size);
 int sizer(char *arr);
 bool login(ifstream &fin,char *username,char *password,char &role);
 void AdminMenu();
@@ -286,7 +286,7 @@ int sizer(char *arr)
     return size;
 }
 
-bool login(ifstream &fin, char *username, char *password)
+bool login(ifstream &fin, char *username, char *password, char &role)
 {
     char fileUser[20];
     char filePass[20];
@@ -300,9 +300,6 @@ bool login(ifstream &fin, char *username, char *password)
         cout << "Enter password: ";
         cin >> password;
 
-        fin.clear();          
-        fin.seekg(0);        
-
         fin.open("users.txt");
 
         if(!fin)
@@ -313,13 +310,13 @@ bool login(ifstream &fin, char *username, char *password)
 
         bool found = false;
 
-        while(fin >> fileUser >> filePass>>fileRole)
+        while(fin >> fileUser >> filePass >> fileRole)
         {
-            char* a=fileUser;
-            char* b=filePass;
-            if(strcmp(username, a) == 0 && strcmp(password, b) == 0)
+            if(strcmp(username,fileUser)==0 &&
+               strcmp(password,filePass)==0)
             {
                 found = true;
+                role = fileRole;
                 break;
             }
         }
@@ -332,11 +329,11 @@ bool login(ifstream &fin, char *username, char *password)
             return true;
         }
 
-        cout << "Wrong credentials. Attempts left: " 
-             << (attempt - 1) << "\n\n";
+        cout << "Wrong credentials. Attempts left: "
+             << (attempt - 1) << "\n";
     }
 
-    cout << "ACCOUNT has been BLOCKED after 3 failed attempts\n";
+    cout << "ACCOUNT HAS BEEN BLOCKED AFTER 3 FAILED ATTEMPTS\n";
     return false;
 }
 
