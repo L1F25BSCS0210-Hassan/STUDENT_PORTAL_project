@@ -7,6 +7,10 @@ void addStudent(int &count,char NAME[][30],char DEPT[][25],char ID[][25],float C
 void showStudent(int count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
 void searchStudent(int choice,int &count,char searchNAME[],char searchID[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
 void deptFilter(int &count,char searchDEPT[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
+void grow(int *&arr,int &size);
+void grow(int *&arr,int &size);
+int sizer(char *arr);
+bool login(ifstream &fin,char *username,char *password);
 
 int main()
 {
@@ -242,4 +246,92 @@ void deptFilter(int &count,char searchDEPT[],char NAME[][30],char DEPT[][25],cha
             cout<<"-----------------------------------------\n";
         }
     }     
+}
+
+void grow(int *&arr,int &size)
+{
+    int *temp=new int[size+1];
+    for(int i=0;i<size;i++)
+    {
+        temp[i]=arr[i];
+    }
+    delete[] arr;
+    arr=temp;
+    size++;
+}
+
+
+void shrink(int *&arr,int &size)
+{
+    int *temp=new int[size-11];
+    for(int i=0;i<size-1;i++)
+    {
+        temp[i]=arr[i];
+    }
+    delete[] arr;
+    arr=temp;
+    size--;
+}
+
+int sizer(char *arr)
+{
+    int size=0;
+    for(int i=0;i!='\0';i++)
+    {
+        size++;
+    }
+    return size;
+}
+
+bool login(ifstream &fin, char *username, char *password)
+{
+    char fileUser[20];
+    char filePass[20];
+
+    for(int attempt = 3; attempt > 0; attempt--)
+    {
+        cout << "Enter username: ";
+        cin >> username;
+
+        cout << "Enter password: ";
+        cin >> password;
+
+        fin.clear();          // reset stream state
+        fin.seekg(0);         // go back to beginning
+
+        fin.open("users.txt");
+
+        if(!fin)
+        {
+            cout << "File not found!\n";
+            return false;
+        }
+
+        bool found = false;
+
+        while(fin >> fileUser >> filePass)
+        {
+            char* a=fileUser;
+            char* b=filePass;
+            if(strcmp(username, a) == 0 && strcmp(password, b) == 0)
+            {
+                found = true;
+                break;
+            }
+        }
+
+        fin.close();
+
+        if(found)
+        {
+            cout << "LOGIN SUCCESSFUL\n";
+            return true;
+        }
+
+        cout << "Wrong credentials. Attempts left: " 
+             << (attempt - 1) << "\n\n";
+    }
+
+    cout << "ACCOUNT has been BLOCKED after 3 failed attempts\n";
+    return false;
 }
