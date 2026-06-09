@@ -10,7 +10,10 @@ void deptFilter(int &count,char searchDEPT[],char NAME[][30],char DEPT[][25],cha
 void grow(int *&arr,int &size);
 void grow(int *&arr,int &size);
 int sizer(char *arr);
-bool login(ifstream &fin,char *username,char *password);
+bool login(ifstream &fin,char *username,char *password,char &role);
+void AdminMenu();
+void studentMenu(int count, char NAME[][30], char DEPT[][25],char ID[][25],float CGPA[]);
+
 
 int main()
 {
@@ -287,6 +290,7 @@ bool login(ifstream &fin, char *username, char *password)
 {
     char fileUser[20];
     char filePass[20];
+    char fileRole;
 
     for(int attempt = 3; attempt > 0; attempt--)
     {
@@ -296,8 +300,8 @@ bool login(ifstream &fin, char *username, char *password)
         cout << "Enter password: ";
         cin >> password;
 
-        fin.clear();          // reset stream state
-        fin.seekg(0);         // go back to beginning
+        fin.clear();          
+        fin.seekg(0);        
 
         fin.open("users.txt");
 
@@ -309,7 +313,7 @@ bool login(ifstream &fin, char *username, char *password)
 
         bool found = false;
 
-        while(fin >> fileUser >> filePass)
+        while(fin >> fileUser >> filePass>>fileRole)
         {
             char* a=fileUser;
             char* b=filePass;
@@ -334,4 +338,71 @@ bool login(ifstream &fin, char *username, char *password)
 
     cout << "ACCOUNT has been BLOCKED after 3 failed attempts\n";
     return false;
+}
+
+void AdminMenu()
+{
+    cout << "\n========== ADMIN MENU ==========\n";
+    cout << "1. Add Student\n";
+    cout << "2. Show All Students\n";
+    cout << "3. Search Student\n";
+    cout << "4. Filter by Department\n";
+    cout << "5. Update Student\n";
+    cout << "6. Delete Student\n";
+    cout << "7. Logout\n";    
+}
+
+void studentMenu(int count, char NAME[][30], char DEPT[][25],char ID[][25],float CGPA[])
+{
+    char searchID[25];
+    int choice;
+
+    cout << "Enter your ID: ";
+    cin >> searchID;
+
+    int pos = -1;
+
+    for(int i = 0; i < count; i++)
+    {
+        if(strcmp(searchID, ID[i]) == 0)
+        {
+            pos = i;
+            break;
+        }
+    }
+
+    if(pos == -1)
+    {
+        cout << "Record not found!\n";
+        return;
+    }
+
+    do
+    {
+        cout << "\n===== STUDENT PORTAL =====\n";
+        cout << "1. View GPA\n";
+        cout << "2. View Attendance\n";
+        cout << "3. Logout\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        switch(choice)
+        {
+            case 1:
+                cout << "Your GPA is: " << CGPA[pos] << endl;
+                break;
+
+            case 2:
+                cout << "Your attendance is"<< ".\n";
+                break;
+
+            case 3:
+                cout << "Logging out...\n";
+                break;
+
+            default:
+                cout << "Invalid choice\n";
+        }
+
+    } while(choice != 3);
 }
