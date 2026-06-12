@@ -4,8 +4,8 @@
 using namespace std;
 
 void LoadData(ifstream &fin,char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize);
-void addStudent(char name[35][30],char ID[35][20],char dept[35][15],float *&gpa,int*& attandance,int &count,int &gpasize,int &attsize,int &number);
-void dataSaver(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize);
+void addStudent(char name[35][30],char ID[35][20],char dept[35][15],float *&gpa,int*& attandance,int &count,int &gpasize,int &attsize,int& number);
+void dataSaver(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize,int number);
 void showStudent(int count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
 void searchStudent(int choice,int &count,char searchNAME[],char searchID[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
 void deptFilter(int &count,char searchDEPT[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
@@ -33,7 +33,14 @@ int main()
     LoadData(fin,Name,ID,Dept,GPA,Attandance,count,gpasize,attsize);
     
     delete[] GPA;
-    delete[] Attandance;  
+    delete[] Attandance;  //have to move it at the very last
+    
+    //=====================================================================//
+
+     //===========================Function-2================================//
+    
+    int number;
+    addStudent(Name,ID,Dept,GPA,Attandance,count,gpasize,attsize,number);
     
     //=====================================================================//
     
@@ -104,14 +111,41 @@ void LoadData(ifstream &fin,char name[35][30],char ID[35][20],char dept[35][15],
     }
 }
 //============================================================================================================================================//
+void dataSaver(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize,int number)
+{
+    ofstream fout1;
+    ofstream fout2;
+    char USERNAME[50];
+    char PASS[50];
+    
+    fout1.open("students.txt",ios::app);
+    fout2.open("users.txt",ios::app);
+    
+    
+    fout1<<endl<<name[count]<<" "<<ID[count]<<" "<<dept[count]<<" "<<gpa[count]<<" "<< 0<<endl;
+        
+        
+    cout<<"Enter the Student's Username: ";
+    cin>>USERNAME;
+        
+    cout<<"Decide the Student's PASSWORD: ";
+    cin>>PASS;
+        
+    fout2<<USERNAME<<" "<<PASS<<" S"<<endl;
+    
+    
+    fout1.close();
+    fout2.close();
+}
 
+//===============================================================================================================================================//
 void addStudent(char name[35][30],char ID[35][20],char dept[35][15],float *&gpa,int*& attandance,int &count,int &gpasize,int &attsize,int &number)
 {
     cout<<"Enter the number of STUDENTS you want to add: ";
     cin>>number;
+    cin.ignore();
     float Gpa;
-    char USERNAME[50];
-    char PASS[50];
+
     
     for(int i=0;i<number;i++)
     {
@@ -133,13 +167,12 @@ void addStudent(char name[35][30],char ID[35][20],char dept[35][15],float *&gpa,
         attandance[attsize-1]=0;
         
         
-        
+        dataSaver(name,ID,dept,gpa,attandance,count,gpasize,attsize,number);
         cin.ignore();
         count++;
     
     }
 }
-
 
 void showStudent(int count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[])
 {
