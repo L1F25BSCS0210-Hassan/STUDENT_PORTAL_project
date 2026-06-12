@@ -5,6 +5,7 @@ using namespace std;
 
 void LoadData(ifstream &fin,char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize);
 void addStudent(char name[35][30],char ID[35][20],char dept[35][15],float *&gpa,int*& attandance,int &count,int &gpasize,int &attsize,int &number);
+void dataSaver(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize);
 void showStudent(int count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
 void searchStudent(int choice,int &count,char searchNAME[],char searchID[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
 void deptFilter(int &count,char searchDEPT[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
@@ -131,11 +132,7 @@ void addStudent(char name[35][30],char ID[35][20],char dept[35][15],float *&gpa,
         intgrow(attandance,attsize);
         attandance[attsize-1]=0;
         
-        cout<<"Enter the Student's Username: ";
-        cin>>USERNAME[count];
         
-        cout<<"Decide the Student's PASSWORD: ";
-        cin>>PASS[count];
         
         cin.ignore();
         count++;
