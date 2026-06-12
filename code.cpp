@@ -3,6 +3,7 @@
 #include<cstring>
 using namespace std;
 
+void LoadData(ifstream &fin,char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize);
 void addStudent(int &count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
 void showStudent(int count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
 void searchStudent(int choice,int &count,char searchNAME[],char searchID[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
@@ -17,16 +18,27 @@ void studentMenu(int count, char NAME[][30], char DEPT[][25],char ID[][25],float
 
 int main()
 {
-    char NAME[25][30];
-    char searchNAME[30];
-    char DEPT[25][25];
-    char searchDEPT[25];
-    char ID[25][25];
-    char searchID[25];
-    float CGPA[50];
-    int count=0;
-    int choice;
+    //===========================Function-1================================//
     
+    ifstream fin;
+    int gpasize,count,attsize;
+    char Name[35][30];
+    char ID[35][20];
+    char Dept[35][15];
+    float *GPA;
+    int *Attandance;
+    
+    LoadData(fin,Name,ID,Dept,GPA,Attandance,count,gpasize,attsize);
+    
+    delete[] GPA;
+    delete[] Attandance;  
+    
+    //=====================================================================//
+    
+    int choice;
+    char searchNAME[30];
+    char searchDEPT[25];
+    char searchID[25];
     cout<<"Enter 1 to search by NAME...\nEnter 2 to search by ID....\n";
     cin>>choice;
     if(choice==1)
@@ -54,6 +66,42 @@ int main()
     return 0;
 }
 
+
+//===============================================================================================================================================//
+void LoadData(ifstream &fin,char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize)
+{
+    fin.open("students.txt");
+    count=0;
+    attandance=NULL;
+    gpa=NULL;
+    gpasize=0;
+    attsize=0;
+    float GPA;
+    int ATTANDANCE;
+    char first[15];
+    char last[15];
+    
+    
+    while(fin>>first>>last)
+    {
+        strcpy(name[count],first);
+        strcat(name[count]," ");
+        strcat(name[count],last);
+        
+        fin>>ID[count]>>dept[count];
+        
+        floatgrow(gpa,gpasize);
+        fin>>GPA;
+        gpa[gpasize-1]=GPA;
+        
+        intgrow(attandance,attsize);
+        fin>>ATTANDANCE;
+        attandance[attsize-1]=ATTANDANCE;
+        
+        count++;
+    }
+}
+//============================================================================================================================================//
 
 void addStudent(int &count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[])
 {
