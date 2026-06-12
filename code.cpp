@@ -4,7 +4,7 @@
 using namespace std;
 
 void LoadData(ifstream &fin,char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize);
-void addStudent(int &count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
+void addStudent(char name[35][30],char ID[35][20],char dept[35][15],float *&gpa,int*& attandance,int &count,int &gpasize,int &attsize,int &number);
 void showStudent(int count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
 void searchStudent(int choice,int &count,char searchNAME[],char searchID[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
 void deptFilter(int &count,char searchDEPT[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
@@ -104,51 +104,43 @@ void LoadData(ifstream &fin,char name[35][30],char ID[35][20],char dept[35][15],
 }
 //============================================================================================================================================//
 
-void addStudent(int &count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[])
+void addStudent(char name[35][30],char ID[35][20],char dept[35][15],float *&gpa,int*& attandance,int &count,int &gpasize,int &attsize,int &number)
 {
-    char name[50];
-    char dept[30];
-    char id[25];
-    float cgpa;
-    int i=0;
+    cout<<"Enter the number of STUDENTS you want to add: ";
+    cin>>number;
+    float Gpa;
+    char USERNAME[50];
+    char PASS[50];
     
-    cout<<"Enter the student name:\n";
-    cin.getline(name,50);
-    
-    while(name[i]!='\0')
+    for(int i=0;i<number;i++)
     {
-        NAME[count][i]=name[i];
-        i++;
+        cout<<"Enter the Student's NAME: ";
+        cin.getline(name[count],30);
+        
+        cout<<"ENter the Student's ID: ";
+        cin>>ID[count];
+        
+        cout<<"Enter the student's DEPARTMENT: ";
+        cin>>dept[count];
+        
+        cout<<"Enter the student's GPA (if transfer (else Enter 0)): ";
+        cin>>Gpa;
+        floatgrow(gpa,gpasize);
+        gpa[gpasize-1]=Gpa;
+        
+        intgrow(attandance,attsize);
+        attandance[attsize-1]=0;
+        
+        cout<<"Enter the Student's Username: ";
+        cin>>USERNAME[count];
+        
+        cout<<"Decide the Student's PASSWORD: ";
+        cin>>PASS[count];
+        
+        cin.ignore();
+        count++;
+    
     }
-    
-    NAME[count][i]='\0';
-    
-    i=0;
-    cout<<"Enter student's department:\n";
-    cin.getline(dept,30);
-    
-    while(dept[i]!='\0')
-    {
-        DEPT[count][i]=dept[i];
-        i++;
-    }
-    DEPT[count][i]='\0';
-    
-    i=0;
-    cout<<"Enter student's ID:\n";
-    cin>>id;
-    while(id[i]!='\0')
-    {
-        ID[count][i]=id[i];
-        i++;
-    }
-    ID[count][i]='\0';
-    
-    cout<<"Enter student's CGPA: \n";
-    cin>>cgpa;
-    CGPA[count]=cgpa;
-    
-    count++;
 }
 
 
