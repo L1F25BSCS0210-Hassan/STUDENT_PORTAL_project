@@ -8,7 +8,8 @@ void addStudent(int &count,char NAME[][30],char DEPT[][25],char ID[][25],float C
 void showStudent(int count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
 void searchStudent(int choice,int &count,char searchNAME[],char searchID[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
 void deptFilter(int &count,char searchDEPT[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
-void grow(int *&arr,int &size);
+void intgrow(int *&arr,int &size);
+void floatgrow(float *&arr,int &size);
 void shrink(int *&arr,int &size);
 int sizer(char *arr);
 bool login(ifstream &fin,char *username,char *password,char &role);
@@ -299,7 +300,19 @@ void deptFilter(int &count,char searchDEPT[],char NAME[][30],char DEPT[][25],cha
     }     
 }
 
-void grow(int *&arr,int &size)
+void floatgrow(float *&arr,int &size)
+{
+    float *temp=new float[size+1];
+    for(int i=0;i<size;i++)
+    {
+        temp[i]=arr[i];
+    }
+    delete[] arr;
+    arr=temp;
+    size++;
+}
+
+void intgrow(int *&arr,int &size)
 {
     int *temp=new int[size+1];
     for(int i=0;i<size;i++)
@@ -310,6 +323,7 @@ void grow(int *&arr,int &size)
     arr=temp;
     size++;
 }
+
 
 
 void shrink(int *&arr,int &size)
