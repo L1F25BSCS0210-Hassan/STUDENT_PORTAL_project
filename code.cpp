@@ -15,17 +15,19 @@ void HighestStudent(char name[35][30],char ID[35][20],char dept[35][15],float*& 
 int Warning(char name[35][30],char ID[35][20],float* gpa,int* attandance,int count);
 void GPAsorted(char name[35][30],char ID[35][20],char dept[35][15],float* gpa,int* attandance,int count);
 void dataSaver(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize,int number);
+void AdminMenu();
+void studentMenu();
 void intgrow(int *&arr,int &size);
 void floatgrow(float *&arr,int &size);
-void shrink(int *&arr,int &size);
+void intshrink(int*& arr, int& size);
+void floatshrink(float*& arr, int& size);
 void shiftleft1(int* arr,int size,int target);
 void shiftleft2(float* arr,int size,int target);
 void swapint(int &a,int &b);
 void swapfloat(float &a,float &b);
 void swapchar(char a[],char b[]);
 bool login(ifstream &fin,char *username,char *password,char &role);
-void AdminMenu();
-void studentMenu();
+
 
 
 int main()
@@ -558,6 +560,34 @@ void swapchar(char a[],char b[])
     strcpy(t,a);
     strcpy(a,b);
     strcpy(b,t);
+}
+
+//======================================================================================================================================//
+
+void floatshrink(float*& arr, int& size)
+{
+    float* temp=new float[size-1];
+    for(int i=0;i<size-1;i++)
+    {
+        temp[i]=arr[i];
+    }
+    delete[] arr;
+    arr=temp;
+    size--;
+}
+
+//======================================================================================================================================//
+
+void intshrink(int*& arr, int& size)
+{
+    int* temp=new int[size-1];
+    for(int i=0;i<size-1;i++)
+    {
+        temp[i]=arr[i];
+    }
+    delete[] arr;
+    arr=temp;
+    size--;
 }
 
 //======================================================================================================================================//
