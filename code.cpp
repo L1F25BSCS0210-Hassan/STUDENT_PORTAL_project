@@ -12,6 +12,7 @@ void searchStudent(int choice,int &count,char searchNAME[],char searchID[],char 
 void UpdateRecord(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize);
 void deptFilter(int &count,char searchDEPT[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
 void DeptStats(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count);
+void HighestStudent(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count);
 void intgrow(int *&arr,int &size);
 void floatgrow(float *&arr,int &size);
 void shrink(int *&arr,int &size);
@@ -773,3 +774,26 @@ void DeptStats(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,i
     cout<<"==========================================================\n";
     
 }
+
+//======================================================================================================================================//
+
+void HighestStudent(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize)
+{
+    int maxindex=0;
+    for(int i=0;i<count;i++)
+    {
+        if(gpa[i]>gpa[maxindex])
+        {
+            maxindex=i;
+        }
+    }
+    
+    
+    cout<<"STUDENT WITH HIGHEST MARKS IS:\n";
+    cout<<"NAME:       "<<name[maxindex]<<endl;
+    cout<<"ROLL NO:    "<<ID[maxindex]<<endl;
+    cout<<"DEPARTMENT: "<<dept[maxindex]<<endl;
+    cout<<"GPA:        "<<gpa[maxindex]<<endl;
+    cout<<"ATTANDANCE: "<<attandance[maxindex]<<endl;
+}
+//======================================================================================================================================//
