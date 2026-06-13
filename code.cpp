@@ -17,6 +17,7 @@ void GPAsorted(char name[35][30],char ID[35][20],char dept[35][15],float* gpa,in
 void dataSaver(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize,int number);
 void AdminMenu();
 void studentMenu();
+void StudentOptions(char name[35][30],char ID[35][20],float*& gpa,int*& attandance,int& count);
 void intgrow(int *&arr,int &size);
 void floatgrow(float *&arr,int &size);
 void intshrink(int*& arr, int& size);
@@ -976,4 +977,49 @@ void GPAsorted(char name[35][30],char ID[35][20],char dept[35][15],float* gpa,in
             cout<<"Enter a valid option!!!\n";
         }
     }while(choice!=3 && !(ascdone&&descdone));
+}
+void StudentOptions(char name[35][30],char ID[35][20],float*& gpa,int*& attandance,int& count)
+{
+    int choice;
+    char search[50];
+    cout<<"Enter your ID to search : ";
+    cin>>search;
+    int target=-1;
+    for(int i=0;i<count;i++)
+    {
+        if(strcmp(search,ID[i])==0)
+        {
+            target=i;
+            break;
+        }
+    }
+    
+    if(target==-1)
+    {
+        cout<<"STUDENT NOT FOUND!!!\n";
+        return;
+    }
+    do
+    {
+        studentMenu();
+        cin>>choice;
+        switch(choice)
+        {
+            case 1:
+                cout<<"Your GPA is: "<<gpa[target]<<endl;
+                break;
+            
+            case 2:
+                cout<<"Your Attendance is: "<<attandance[target]<<endl;
+                break;
+                
+            case 3:
+                cout<<"LOGGING oUT!!!\n";
+                break;
+                
+            default:
+                cout<<"Invalid option...\n";
+        }
+        
+    }while(choice!=3);
 }
