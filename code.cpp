@@ -253,13 +253,15 @@ void showStudent(int count,char NAME[][30],char DEPT[][25],char ID[][25],float C
 void RemoveStudent(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize)
 {
     char remID[50];
+    bool found=false;
     cout<<"ENter the ID of the student you want to remove: ";
     cin>>remID;
     for(int i=0;i<count;i++)
     {
         if(strcmp(remID,ID[i])==0)
         {
-            for(int j=0;j<count-1;j++)
+            found=true;
+            for(int j=i;j<count-1;j++)
             {
                 strcpy(name[j],name[j+1]);
                 strcpy(ID[j],ID[j+1]);
@@ -273,10 +275,16 @@ void RemoveStudent(char name[35][30],char ID[35][20],char dept[35][15],float*& g
             
         }
     }
-    count--;
-    gpasize--;
-    attsize--;
     
+    if(!found)
+    {
+        cout<<"Student not found!\n";
+        return;
+    }
+    floatshrink(gpa, gpasize);      
+    intshrink(attandance, attsize); 
+    count--;
+
     ofstream fout1;
     fout1.open("students.txt");
     for(int i = 0; i < count; i++)
