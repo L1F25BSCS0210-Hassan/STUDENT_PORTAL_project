@@ -14,6 +14,7 @@ void deptFilter(int &count,char searchDEPT[],char NAME[][30],char DEPT[][25],cha
 void DeptStats(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count);
 void HighestStudent(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count);
 void Warning(char name[35][30],char ID[35][20],float* gpa,int* attandance,int count);
+void GPAsorted(char name[35][30],char ID[35][20],char dept[35][15],float* gpa,int* attandance,int count);
 void intgrow(int *&arr,int &size);
 void floatgrow(float *&arr,int &size);
 void shrink(int *&arr,int &size);
@@ -45,8 +46,7 @@ int main()
     delete[] Attandance;  //have to move it at the very last
     
     //=====================================================================//
-
-     //===========================Function-2================================//
+    //===========================Function-2================================//
     
     int number;
     addStudent(Name,ID,Dept,GPA,Attandance,count,gpasize,attsize,number);
@@ -67,7 +67,6 @@ int main()
     //=====================================================================//
     //===========================Function-5================================//
     
-    
     char searchdept[50];
     deptFilter(searchdept,Name,ID,Dept,GPA,Attandance,count);
     
@@ -87,11 +86,18 @@ int main()
     DeptStats(Name,ID,Dept,GPA,Attandance,count,gpasize,attsize);
     
     //=====================================================================//
-     //===========================Function-9================================//
+    //===========================Function-9================================//
     
     Warning(Name,ID,Dept,GPA,Attandance,count,gpasize,attsize);
     
     //=====================================================================//
+
+    //===========================Function-10================================//
+    
+    GPAsorted(Name,ID,Dept,GPA,Attandance,count,gpasize,attsize);
+    
+    //=====================================================================//
+
 
 
     return 0;
@@ -857,4 +863,120 @@ void Warning(char name[35][30],char ID[35][20],float* gpa,int* attandance,int co
         cout<<"No Student with Low attandance or warning!!!\n";
     }
     cout<<"=======================================\n";
+}
+
+//======================================================================================================================================//
+
+void GPAsorted(char name[35][30],char ID[35][20],char dept[35][15],float* gpa,int* attandance,int count)
+{
+    char tempname[35][30];
+    char tempid[35][20];
+    char tempdept[35][15];
+    float tempgpa[35];
+    int tempatt[35];
+    bool ascdone=false;
+    bool descdone=false;
+    
+    
+    int choice;
+    
+    do
+    {
+        if(!ascdone)
+        {
+            cout<<"Enter 1 to sort in ASSCENDING GPA ORDER:\n";
+        }
+        if(!descdone)
+        {
+            cout<<"Enter 2 to sort in DEscENDING GPA ORDER:\n";
+        }
+        cout<<"Enter 3 to stop!!!\n";
+        cin>>choice; 
+        if(choice==1)
+        {
+            for(int i=0;i<count;i++)
+            {
+                strcpy(tempname[i],name[i]);
+                strcpy(tempid[i],ID[i]);
+                strcpy(tempdept[i],dept[i]);
+                
+                tempgpa[i]=gpa[i];
+                tempatt[i]=attandance[i];
+            }
+            for(int i=0;i<count;i++)
+            {
+                for(int j=0;j<count-1-i;j++)
+                {
+                    if(tempgpa[j]<tempgpa[j+1])
+                    {
+                        swapchar(tempname[j],tempname[j+1]);
+                        swapchar(tempid[j],tempid[j+1]);
+                        swapchar(tempdept[j],tempdept[j+1]);
+                        
+                        swapfloat(tempgpa[j],tempgpa[j+1]);
+                        swapint(tempatt[j],tempatt[j+1]);
+                    }
+                }
+            }
+            
+            ofstream fout1;
+            fout1.open("ASSSortedStudents.txt");
+            fout1<<"THE SORTED STUDENT FILE IS:\n";
+            for(int i=0;i<count;i++)
+            {
+                fout1<<tempname[i]<<" "<<tempid[i]<<" "<<tempdept[i]<<" "<<tempgpa[i]<<" "<<tempatt[i]<<endl;
+            }
+            fout1.close();
+            ascdone=true;
+        }
+        
+        else if(choice==2)
+        {
+            for(int i=0;i<count;i++)
+            {
+                strcpy(tempname[i],name[i]);
+                strcpy(tempid[i],ID[i]);
+                strcpy(tempdept[i],dept[i]);
+                
+                tempgpa[i]=gpa[i];
+                tempatt[i]=attandance[i];
+            }
+            for(int i=0;i<count;i++)
+            {
+                for(int j=0;j<count-1-i;j++)
+                {
+                    if(tempgpa[j]>tempgpa[j+1])
+                    {
+                        swapchar(tempname[j],tempname[j+1]);;
+                        swapchar(tempid[j],tempid[j+1]);
+                        swapchar(tempdept[j],tempdept[j+1]);
+                        
+                        swapfloat(tempgpa[j],tempgpa[j+1]);
+                        swapint(tempatt[j],tempatt[j+1]);
+                    }
+                }
+            }
+            
+            
+            ofstream fout2;
+            fout2.open("DESSortedStudents.txt");
+            fout2<<"THE SORTED STUDENT FILE IS:\n";
+            for(int i=0;i<count;i++)
+            {
+                fout2<<tempname[i]<<" "<<tempid[i]<<" "<<tempdept[i]<<" "<<tempgpa[i]<<" "<<tempatt[i]<<endl;
+            }
+            fout2.close();
+            descdone=true;
+        }
+        
+        else if(choice==3)
+        {
+            cout<<"EXITING!!!\n";
+        }
+        
+        else
+        {
+            cout<<"Enter a valid option!!!\n";
+        }
+    }while(choice!=3 && !(ascdone&&descdone));
 }
