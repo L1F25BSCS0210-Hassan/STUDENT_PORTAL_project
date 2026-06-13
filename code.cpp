@@ -43,35 +43,32 @@ int main()
     addStudent(Name,ID,Dept,GPA,Attandance,count,gpasize,attsize,number);
     
     //=====================================================================//
+
+
+    //===========================Function-3================================//
+    
+    showStudents(Name,ID,Dept,GPA,Attandance,count);
+    
+    //=====================================================================//
+    
+     //===========================Function-4================================//
     
     int choice;
-    char searchNAME[30];
-    char searchDEPT[25];
-    char searchID[25];
-    cout<<"Enter 1 to search by NAME...\nEnter 2 to search by ID....\n";
-    cin>>choice;
-    if(choice==1)
-    {
-        cout<<"Enter the student's NAME you want to search...\n";
-        cin.getline(searchNAME,30);
-    }
-    else if(choice==2)
-    {
-        cout<<"Enter the student's ID you want to search...\n";
-        cin.getline(searchNAME,30);
-    }
-    else
-    {
-        cout<<"Invalid Choice..\n";
-    }
+    char searchname[50];
+    char searchID[50];
+    searchStudent(choice,searchname,searchID,Name,ID,Dept,GPA,Attandance,count);
+    
+    //=====================================================================//
+    
+    //===========================Function-5================================//
     
     
-    cout<<"Enter the department according to which you want to filter students: \n";
-    cin.getline(searchDEPT,25);
-    addStudent(count,NAME,DEPT,ID,CGPA);
-    showStudent(count,NAME,DEPT,ID,CGPA);
-    searchStudent(choice,count,searchNAME,searchID,NAME,DEPT,ID,CGPA);
-    deptFilter(count,searchDEPT,NAME,DEPT,ID,CGPA);
+    char searchdept[50];
+    deptFilter(searchdept,Name,ID,Dept,GPA,Attandance,count);
+    
+    //=====================================================================//
+
+
     return 0;
 }
 
