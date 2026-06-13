@@ -16,6 +16,7 @@ int Warning(char name[35][30],char ID[35][20],float* gpa,int* attandance,int cou
 void GPAsorted(char name[35][30],char ID[35][20],char dept[35][15],float* gpa,int* attandance,int count);
 void dataSaver(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize,int number);
 void AdminMenu();
+void AdminOptions(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize);
 void studentMenu();
 void StudentOptions(char name[35][30],char ID[35][20],float*& gpa,int*& attandance,int& count);
 void intgrow(int *&arr,int &size);
@@ -1022,4 +1023,67 @@ void StudentOptions(char name[35][30],char ID[35][20],float*& gpa,int*& attandan
         }
         
     }while(choice!=3);
+}
+void AdminOptions(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize)
+{
+    int choice;
+    int number;
+    do
+    {
+        adminMenu();
+        cin>>choice;
+        switch(choice)
+        {
+            case 1:
+                addStudent(name,ID,dept,gpa,attandance,count,gpasize,attsize,number);
+                break;
+            
+            case 2:
+                showStudents(name,ID,dept,gpa,attandance,count);
+                break;
+            
+            case 3:
+                int ch;
+                char sname[50];
+                char sID[50];
+                searchStudent(ch,sname,sID,name,ID,dept,gpa,attandance,count);
+                break;
+            
+            case 4:
+                char sdept[50];
+                deptFilter(sdept,name,ID,dept,gpa,attandance,count);
+                break;
+            
+            case 5:
+                UpdateRecord(name,ID,dept,gpa,attandance,count,gpasize,attsize);
+                break;
+            
+            case 6:
+                RemoveStudent(name,ID,dept,gpa,attandance,count,gpasize,attsize);
+                break;
+            
+            case 7:
+                DeptStats(name,ID,dept,gpa,attandance,count);
+                break;
+            
+            case 8:
+                HighestStudent(name,ID,dept,gpa,attandance,count,gpasize,attsize);
+                break;
+            
+            case 9:
+                Warning(name,ID,gpa,attandance,count);
+                break;
+            
+            case 10:
+                GPAsorted(name,ID,dept,gpa,attandance,count);
+                break;
+            
+            case 0:
+                cout<<"EXITING!!!\n";
+                break;
+            
+            default:
+                cout<<"Invalid option...\n";
+        }
+    }while(choice!=0);
 }
