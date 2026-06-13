@@ -122,7 +122,7 @@ void dataSaver(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,i
     fout2.open("users.txt",ios::app);
     
     
-    fout1<<endl<<name[count]<<" "<<ID[count]<<" "<<dept[count]<<" "<<gpa[count]<<" "<< 0<<endl;
+    fout1<<name[count]<<" "<<ID[count]<<" "<<dept[count]<<" "<<gpa[count]<<" "<< 0<<endl;
         
         
     cout<<"Enter the Student's Username: ";
@@ -174,6 +174,8 @@ void addStudent(char name[35][30],char ID[35][20],char dept[35][15],float *&gpa,
     }
 }
 
+//======================================================================================================================================//
+
 void showStudent(int count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[])
 {
     if(count==0)
@@ -215,71 +217,103 @@ void showStudent(int count,char NAME[][30],char DEPT[][25],char ID[][25],float C
     cout<<endl;
 }
 
-void searchStudent(int choice,int &count,char searchNAME[],char searchID[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[])
+//======================================================================================================================================//
+
+void searchStudent(int &choice,char searchNAME[50],char searchID[50],char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count)
 {
+    cout<<"ENTER 1 to search by NAME, 2 to Search by ID:\n";
+    cin>>choice;
+    cin.ignore();
     if(choice==1)
     {
+        cout<<"Enter the students name:\n";
+        cin.getline(searchNAME,50);
+        int j=0;
+        if(searchNAME[j]>='a'&&searchNAME[j]<='z')
+        {
+            searchNAME[j]-=32;
+            j++;
+        }
         for(int i=0;i<count;i++)
         {
-            if(strcmp(searchNAME,NAME[i])==0)
+            if(strcmp(searchNAME,name[i])==0)
             {
                 cout<<fixed;
                 cout.width(20);
-        
+
                 cout<<left<<"Student's name ";
                 cout<<" : ";
-                
-                cout<<NAME[i]<<endl;
+        
+                cout<<name[i]<<endl;
                 cout.width(20);
-                cout<<left<<"Student's Department : ";
-                
-                cout<<DEPT[i]<<endl;
+                cout<<left<<"Student's Department ";
+        
+                cout<<dept[i]<<endl;
                 cout.width(20);
                 cout<<left<<"Student's ID ";
-                
+        
                 cout<<" : ";
-                
+            
                 cout<<ID[i]<<endl;
                 cout.width(20);
                 cout<<left<<"Student's CGPA ";
-                
+        
                 cout<<" : ";
                 cout.precision(2);
-                cout<<CGPA[i]<<endl;
+                cout<<gpa[i]<<endl;
+                cout.width(20);
+                cout<<left<<"Student's ATTANDANCE ";
+        
+                cout<<" : ";
+                cout<<attandance[i]<<endl;
+                cout<<endl;
             }
         }
     }
     
     else if(choice==2)
     {
-        
+        cout<<"Enter the students ID:\n";
+        cin.getline(searchID,50);
+        int j=0;
+        if(searchID[j]>='a'&&searchID[j]<='z')
+        {
+            searchID[j]-=32;
+            j++;
+        }
         for(int i=0;i<count;i++)
         {
             if(strcmp(searchID,ID[i])==0)
             {
                 cout<<fixed;
                 cout.width(20);
-        
+
                 cout<<left<<"Student's name ";
                 cout<<" : ";
-                
-                cout<<NAME[i]<<endl;
+        
+                cout<<name[i]<<endl;
                 cout.width(20);
-                cout<<left<<"Student's Department : ";
-                
-                cout<<DEPT[i]<<endl;
+                cout<<left<<"Student's Department :";
+        
+                cout<<dept[i]<<endl;
                 cout.width(20);
                 cout<<left<<"Student's ID ";
-                
+        
                 cout<<" : ";
-                
+            
                 cout<<ID[i]<<endl;
                 cout.width(20);
                 cout<<left<<"Student's CGPA ";
-                
+        
                 cout<<" : ";
                 cout.precision(2);
-                cout<<CGPA[i]<<endl;
+                cout<<gpa[i]<<endl;
+                cout.width(20);
+                cout<<left<<"Student's ATTANDANCE ";
+        
+                cout<<" : ";
+                cout<<attandance[i]<<endl;
+                cout<<endl;
             }
         }
     }
@@ -289,39 +323,54 @@ void searchStudent(int choice,int &count,char searchNAME[],char searchID[],char 
     }
 }
 
-
-void deptFilter(int &count,char searchDEPT[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[])
+void deptFilter(char searchDEPT[50],char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int count)
 {
     cout<<"=================STUDENTS OF THE DEPT=================\n";
+    cout<<"Enter the department to filter students: \n";
+    cin.getline(searchDEPT,50);
+    int j=0;
+    if(searchDEPT[j]>='a'&&searchDEPT[j]<='z')
+    {
+        searchDEPT[j]-=32;
+        j++;
+    }
     for(int i=0;i<count;i++)
     {
-        if(strcmp(searchDEPT,DEPT[i])==0)
+        if(strcmp(searchDEPT,dept[i])==0)
         {
             cout<<fixed;
             cout.width(20);
-        
             cout<<left<<"Student's name ";
             cout<<" : ";
-                
-            cout<<NAME[i]<<endl;
-            
+            cout<<name[i]<<endl;
+            cout.width(20);
+            cout<<left<<"Student's Department ";
+        
+            cout<<dept[i]<<endl;
             cout.width(20);
             cout<<left<<"Student's ID ";
-                
+        
             cout<<" : ";
-                
+            
             cout<<ID[i]<<endl;
             cout.width(20);
             cout<<left<<"Student's CGPA ";
-                
+        
             cout<<" : ";
             cout.precision(2);
-            cout<<CGPA[i]<<endl;
+            cout<<gpa[i]<<endl;
+            cout.width(20);
+            cout<<left<<"Student's ATTANDANCE ";
+        
+            cout<<" : ";
+            cout<<attandance[i]<<endl;
+            cout<<endl;
             cout<<"-----------------------------------------\n";
         }
     }     
 }
 
+//======================================================================================================================================//
 void floatgrow(float *&arr,int &size)
 {
     float *temp=new float[size+1];
@@ -334,6 +383,7 @@ void floatgrow(float *&arr,int &size)
     size++;
 }
 
+//======================================================================================================================================//
 void intgrow(int *&arr,int &size)
 {
     int *temp=new int[size+1];
@@ -346,7 +396,7 @@ void intgrow(int *&arr,int &size)
     size++;
 }
 
-
+//======================================================================================================================================//
 
 void shrink(int *&arr,int &size)
 {
@@ -360,6 +410,8 @@ void shrink(int *&arr,int &size)
     size--;
 }
 
+//======================================================================================================================================//
+
 int sizer(char *arr)
 {
     int size=0;
@@ -370,6 +422,7 @@ int sizer(char *arr)
     return size;
 }
 
+//======================================================================================================================================//
 bool login(ifstream &fin, char *username, char *password, char &role)
 {
     char fileUser[20];
@@ -421,6 +474,8 @@ bool login(ifstream &fin, char *username, char *password, char &role)
     return false;
 }
 
+//======================================================================================================================================//
+
 void AdminMenu()
 {
     cout << "\n========== ADMIN MENU ==========\n";
@@ -432,6 +487,8 @@ void AdminMenu()
     cout << "6. Delete Student\n";
     cout << "7. Logout\n";    
 }
+
+//======================================================================================================================================//
 
 void studentMenu(int count, char NAME[][30], char DEPT[][25],char ID[][25],float CGPA[])
 {
@@ -487,3 +544,5 @@ void studentMenu(int count, char NAME[][30], char DEPT[][25],char ID[][25],float
 
     } while(choice != 3);
 }
+
+//======================================================================================================================================//
