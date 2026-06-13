@@ -6,7 +6,6 @@ using namespace std;
 void LoadData(ifstream &fin,char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize);
 void addStudent(char name[35][30],char ID[35][20],char dept[35][15],float *&gpa,int*& attandance,int &count,int &gpasize,int &attsize,int& number);
 void RemoveStudent(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize);
-void dataSaver(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize,int number);
 void showStudent(int count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
 void searchStudent(int choice,int &count,char searchNAME[],char searchID[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
 void UpdateRecord(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize);
@@ -15,6 +14,7 @@ void DeptStats(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,i
 void HighestStudent(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count);
 int Warning(char name[35][30],char ID[35][20],float* gpa,int* attandance,int count);
 void GPAsorted(char name[35][30],char ID[35][20],char dept[35][15],float* gpa,int* attandance,int count);
+void dataSaver(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize,int number);
 void intgrow(int *&arr,int &size);
 void floatgrow(float *&arr,int &size);
 void shrink(int *&arr,int &size);
@@ -25,7 +25,7 @@ void swapfloat(float &a,float &b);
 void swapchar(char a[],char b[]);
 bool login(ifstream &fin,char *username,char *password,char &role);
 void AdminMenu();
-void studentMenu(int count, char NAME[][30], char DEPT[][25],char ID[][25],float CGPA[]);
+void studentMenu();
 
 
 int main()
@@ -614,73 +614,30 @@ bool login(ifstream &fin, char *username, char *password, char &role)
 
 //======================================================================================================================================//
 
-void AdminMenu()
+void adminMenu()
 {
-    cout << "\n========== ADMIN MENU ==========\n";
+    cout << "\n===== ADMIN PORTAL =====\n";
     cout << "1. Add Student\n";
-    cout << "2. Show All Students\n";
-    cout << "3. Search Student\n";
-    cout << "4. Filter by Department\n";
-    cout << "5. Update Student\n";
-    cout << "6. Delete Student\n";
-    cout << "7. Logout\n";    
+    cout << "2. Delete Student\n";
+    cout << "3. Update Student\n";
+    cout << "4. Search Student\n";
+    cout << "5. Display All Students\n";
+    cout << "6. Department-wise Filter\n";
+    cout << "7. Sort Students by GPA\n";
+    cout << "8. Show Highest GPA Student\n";
+    cout << "9. Scholarship / Warning System\n";
+    cout << "10. Department Statistics\n";
+    cout << "12. Logout\n";
 }
 
 //======================================================================================================================================//
 
-void studentMenu(int count, char NAME[][30], char DEPT[][25],char ID[][25],float CGPA[])
+void studentMenu()
 {
-    char searchID[25];
-    int choice;
-
-    cout << "Enter your ID: ";
-    cin >> searchID;
-
-    int pos = -1;
-
-    for(int i = 0; i < count; i++)
-    {
-        if(strcmp(searchID, ID[i]) == 0)
-        {
-            pos = i;
-            break;
-        }
-    }
-
-    if(pos == -1)
-    {
-        cout << "Record not found!\n";
-        return;
-    }
-
-    do
-    {
-        cout << "\n===== STUDENT PORTAL =====\n";
-        cout << "1. View GPA\n";
-        cout << "2. View Attendance\n";
-        cout << "3. Logout\n";
-        cout << "Enter choice: ";
-        cin >> choice;
-
-        switch(choice)
-        {
-            case 1:
-                cout << "Your GPA is: " << CGPA[pos] << endl;
-                break;
-
-            case 2:
-                cout << "Your attendance is"<< ".\n";
-                break;
-
-            case 3:
-                cout << "Logging out...\n";
-                break;
-
-            default:
-                cout << "Invalid choice\n";
-        }
-
-    } while(choice != 3);
+    cout << "\n===== STUDENT PORTAL =====\n";
+    cout << "1. View GPA\n";
+    cout << "2. View Attendance\n";
+    cout << "3. Logout\n";
 }
 
 //======================================================================================================================================//
