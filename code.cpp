@@ -9,6 +9,7 @@ void RemoveStudent(char name[35][30],char ID[35][20],char dept[35][15],float*& g
 void dataSaver(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize,int number);
 void showStudent(int count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
 void searchStudent(int choice,int &count,char searchNAME[],char searchID[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
+void UpdateRecord(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize);
 void deptFilter(int &count,char searchDEPT[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
 void intgrow(int *&arr,int &size);
 void floatgrow(float *&arr,int &size);
@@ -645,3 +646,75 @@ void studentMenu(int count, char NAME[][30], char DEPT[][25],char ID[][25],float
 }
 
 //======================================================================================================================================//
+void UpdateRecord(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize)
+{
+
+    char upID[50];
+    cout<<"Enter the Student's ID to update data: ";
+    cin>>upID;
+    int target=-1;
+    for(int i=0;i<count;i++)
+    {
+        if(strcmp(upID,ID[i])==0)
+        {
+            target=i;
+        }
+    }
+
+    if(target==-1)
+    {
+        cout<<"Student not FOUND!!!\n";
+        return;
+    }
+
+    int choice;
+    do
+    {
+        cout<<"Enter 1 to update NAME...\n";
+        cout<<"Enter 2 to update DePT...\n";
+        cout<<"Enter 3 to update GPA...\n";
+        cout<<"Enter 4 to update ATTANDANCE...\n";
+        cout<<"Enter 5 to update EXIT...\n";
+        cin>>choice;
+        switch(choice)
+        {
+            case 1:
+                cout<<"Update the name to what you want:\n";
+                cin>>name[target];
+                break;
+
+            case 2:
+                cout<<"Update the department what you want: \n";
+                cin>>dept[target];
+                break;
+
+            case 3:
+                cout<<"Update the GPA :\n";
+                cin>>gpa[target];
+                break;
+
+            case 4:
+                cout<<"Update the attandance :\n";
+                cin>>attandance[target];
+                break;
+
+            case 5:
+                cout<<"Exited!!!\n";
+                break;
+
+            default:
+                cout<<"Invalid choice!!!\n";
+                break;
+
+        }
+    }while(choice!=5);
+
+    ofstream fout;
+    fout.open("students.txt");
+    for(int i = 0; i < count; i++)
+    {
+        fout << name[i] << " " << ID[i] << " " << dept[i] << " " << gpa[i] << " " << attandance[i] << endl;
+    }
+    fout.close();
+
+}
