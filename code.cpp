@@ -13,6 +13,8 @@ void deptFilter(int &count,char searchDEPT[],char NAME[][30],char DEPT[][25],cha
 void intgrow(int *&arr,int &size);
 void floatgrow(float *&arr,int &size);
 void shrink(int *&arr,int &size);
+void shiftleft1(int* arr,int size,int target);
+void shiftleft2(float* arr,int size,int target)
 int sizer(char *arr);
 bool login(ifstream &fin,char *username,char *password,char &role);
 void AdminMenu();
