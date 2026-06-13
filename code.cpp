@@ -406,10 +406,12 @@ void deptFilter(char searchDEPT[50],char name[35][30],char ID[35][20],char dept[
     cout<<"Enter the department to filter students: \n";
     cin.getline(searchDEPT,50);
     int j=0;
-    if(searchDEPT[j]>='a'&&searchDEPT[j]<='z')
+    for(int j = 0; searchDEPT[j] != '\0'; j++)
     {
-        searchDEPT[j]-=32;
-        j++;
+        if(searchDEPT[j] >= 'a' && searchDEPT[j] <= 'z')
+        {
+            searchDEPT[j] -= 32; 
+        }
     }
     for(int i=0;i<count;i++)
     {
