@@ -13,7 +13,7 @@ void UpdateRecord(char name[35][30],char ID[35][20],char dept[35][15],float*& gp
 void deptFilter(int &count,char searchDEPT[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
 void DeptStats(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count);
 void HighestStudent(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count);
-void Warning(char name[35][30],char ID[35][20],float* gpa,int* attandance,int count);
+int Warning(char name[35][30],char ID[35][20],float* gpa,int* attandance,int count);
 void GPAsorted(char name[35][30],char ID[35][20],char dept[35][15],float* gpa,int* attandance,int count);
 void intgrow(int *&arr,int &size);
 void floatgrow(float *&arr,int &size);
@@ -88,7 +88,8 @@ int main()
     //=====================================================================//
     //===========================Function-9================================//
     
-    Warning(Name,ID,Dept,GPA,Attandance,count,gpasize,attsize);
+    int warned=Warning(Name,ID,Dept,GPA,Attandance,count,gpasize,attsize);
+    cout<<"The Number of Students getting the warning are: "<<warned<<endl;
     
     //=====================================================================//
 
@@ -834,7 +835,7 @@ void HighestStudent(char name[35][30],char ID[35][20],char dept[35][15],float*& 
 
 //======================================================================================================================================//
 
-void Warning(char name[35][30],char ID[35][20],float* gpa,int* attandance,int count)
+int Warning(char name[35][30],char ID[35][20],float* gpa,int* attandance,int count)
 {
     cout<<"==========SCHOLARSHIP WARNING==========\n";
     int warned=0;
@@ -863,6 +864,7 @@ void Warning(char name[35][30],char ID[35][20],float* gpa,int* attandance,int co
         cout<<"No Student with Low attandance or warning!!!\n";
     }
     cout<<"=======================================\n";
+    return warned;
 }
 
 //======================================================================================================================================//
