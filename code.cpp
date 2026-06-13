@@ -11,6 +11,7 @@ void showStudent(int count,char NAME[][30],char DEPT[][25],char ID[][25],float C
 void searchStudent(int choice,int &count,char searchNAME[],char searchID[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
 void UpdateRecord(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize);
 void deptFilter(int &count,char searchDEPT[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
+void DeptStats(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count);
 void intgrow(int *&arr,int &size);
 void floatgrow(float *&arr,int &size);
 void shrink(int *&arr,int &size);
@@ -717,4 +718,58 @@ void UpdateRecord(char name[35][30],char ID[35][20],char dept[35][15],float*& gp
     }
     fout.close();
 
+}
+
+//======================================================================================================================================//
+
+void DeptStats(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count)
+{
+    char d1[10]="SE";
+    char d2[10]="CS";
+    char d3[10]="IT";
+    int cs,it,se;
+    cs=it=se=0;
+    float sum1,sum2,sum3;
+    sum1=sum2=sum3=0;
+    
+    for(int i=0;i<count;i++)
+    {
+        if(strcmp(d1,dept[i])==0)
+        {
+            sum1+=gpa[i];
+            se++;
+        }
+        if(strcmp(d2,dept[i])==0)
+        {
+            sum2+=gpa[i];
+            it++;
+        }
+        if(strcmp(d3,dept[i])==0)
+        {
+            sum3+=gpa[i];
+            cs++;
+        }
+    }
+    
+    float seavg;
+    float itavg;
+    float csavg;
+    if(cs!=0) csavg=sum3/cs;
+    if(it!=0) itavg=sum2/it;
+    if(se!=0) seavg=sum1/se;
+        
+    cout<<"=================DEPARTMENT STaTISTICS===================\n";
+    cout<<"SOFTWARE ENGINEERING:\n";
+    cout<<"TOTAL NUMBER of STUDENTS: "<<se<<endl;
+    cout<<"AVERAGE GPA OF SE DEPT IS: "<<seavg<<endl;
+    
+    cout<<"INFORMATION TECHNOLOGY:\n";
+    cout<<"TOTAL NUMBER of STUDENTS: "<<it<<endl;
+    cout<<"AVERAGE GPA OF SE DEPT IS: "<<itavg<<endl;
+    
+    cout<<"COMPUTER SCIENCE:\n";
+    cout<<"TOTAL NUMBER of STUDENTS: "<<cs<<endl;
+    cout<<"AVERAGE GPA OF SE DEPT IS: "<<csavg<<endl;
+    cout<<"==========================================================\n";
+    
 }
