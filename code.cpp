@@ -47,7 +47,6 @@ int main()
     
     //=====================================================================//
 
-
     //===========================Function-3================================//
     
     showStudents(Name,ID,Dept,GPA,Attandance,count);
@@ -68,6 +67,12 @@ int main()
     
     char searchdept[50];
     deptFilter(searchdept,Name,ID,Dept,GPA,Attandance,count);
+    
+    //=====================================================================//
+
+    //===========================Function-5================================//
+    
+    RemoveStudent(Name,ID,Dept,GPA,Attandance,count,gpasize,attsize);
     
     //=====================================================================//
 
