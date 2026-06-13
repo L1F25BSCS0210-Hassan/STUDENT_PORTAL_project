@@ -5,6 +5,7 @@ using namespace std;
 
 void LoadData(ifstream &fin,char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize);
 void addStudent(char name[35][30],char ID[35][20],char dept[35][15],float *&gpa,int*& attandance,int &count,int &gpasize,int &attsize,int& number);
+void RemoveStudent(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize);
 void dataSaver(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize,int number);
 void showStudent(int count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
 void searchStudent(int choice,int &count,char searchNAME[],char searchID[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
@@ -216,6 +217,78 @@ void showStudent(int count,char NAME[][30],char DEPT[][25],char ID[][25],float C
 
 //======================================================================================================================================//
 
+void RemoveStudent(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize)
+{
+    char remID[50];
+    cout<<"ENter the ID of the student you want to remove: ";
+    cin>>remID;
+    for(int i=0;i<count;i++)
+    {
+        if(strcmp(remID,ID[i])==0)
+        {
+            for(int j=0;j<count-1;j++)
+            {
+                strcpy(name[j],name[j+1]);
+                strcpy(ID[j],ID[j+1]);
+                strcpy(dept[j],dept[j+1]);
+            }
+            
+            
+            shiftleft2(gpa,gpasize,i);
+            shiftleft1(attandance,attsize,i);
+            break;
+            
+        }
+    }
+    count--;
+    gpasize--;
+    attsize--;
+    
+    ofstream fout1;
+    fout1.open("students.txt");
+    for(int i = 0; i < count; i++)
+    {
+        fout1 << name[i] << " " << ID[i] << " " << dept[i] << " " << gpa[i] << " " << attandance[i] << endl;
+    }
+    fout1.close();
+    
+    
+    char unames[35][50];
+    char upass[35][50];
+    char urole[35][10];
+    int ucount = 0;
+    char uid[50];
+    int j = 0;
+    ifstream fin;
+    fin.open("users.txt");
+    
+    while(fin >> unames[ucount] >> upass[ucount] >> urole[ucount])
+    {
+        
+        for(j = 0; unames[ucount][j] != '@'; j++)
+        {
+            uid[j] = unames[ucount][j];
+        }
+        uid[j] = '\0';
+    
+        if(strcmp(uid, remID) != 0) 
+        {
+            ucount++;
+        }
+    }
+    fin.close();
+    
+    ofstream fout2;
+    fout2.open("users.txt");
+    for(int i = 0; i < ucount; i++)
+    {
+        fout2 << unames[i] << " " << upass[i] << " " << urole[i] << endl;
+    }
+    fout2.close();
+}
+
+//======================================================================================================================================//
+
 void searchStudent(int &choice,char searchNAME[50],char searchID[50],char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count)
 {
     cout<<"ENTER 1 to search by NAME, 2 to Search by ID:\n";
@@ -405,6 +478,26 @@ void shrink(int *&arr,int &size)
     delete[] arr;
     arr=temp;
     size--;
+}
+
+//======================================================================================================================================//
+
+void shiftleft1(int* arr,int size,int target)
+{
+    for(int i=target;i<size-1;i++)
+    {
+        arr[i]=arr[i+1];
+    }
+}
+
+//======================================================================================================================================//
+
+void shiftleft2(float* arr,int size,int target)
+{
+    for(int i=target;i<size-1;i++)
+    {
+        arr[i]=arr[i+1];
+    }
 }
 
 //======================================================================================================================================//
