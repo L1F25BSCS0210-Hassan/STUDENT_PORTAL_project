@@ -18,8 +18,10 @@ void intgrow(int *&arr,int &size);
 void floatgrow(float *&arr,int &size);
 void shrink(int *&arr,int &size);
 void shiftleft1(int* arr,int size,int target);
-void shiftleft2(float* arr,int size,int target)
-int sizer(char *arr);
+void shiftleft2(float* arr,int size,int target);
+void swapint(int &a,int &b);
+void swapfloat(float &a,float &b);
+void swapchar(char a[],char b[]);
 bool login(ifstream &fin,char *username,char *password,char &role);
 void AdminMenu();
 void studentMenu(int count, char NAME[][30], char DEPT[][25],char ID[][25],float CGPA[]);
@@ -526,14 +528,29 @@ void shiftleft2(float* arr,int size,int target)
 
 //======================================================================================================================================//
 
-int sizer(char *arr)
+void swapint(int &a,int &b)
 {
-    int size=0;
-    for(int i=0;arr[i]!='\0';i++)
-    {
-        size++;
-    }
-    return size;
+    int t=a;
+    a=b;
+    b=t;
+}
+//======================================================================================================================================//
+
+void swapfloat(float &a,float &b)
+{
+    float t=a;
+    a=b;
+    b=t;
+}
+
+//======================================================================================================================================//
+
+void swapchar(char a[],char b[])
+{
+    char t[30];
+    strcpy(t,a);
+    strcpy(a,b);
+    strcpy(b,t);
 }
 
 //======================================================================================================================================//
