@@ -13,6 +13,7 @@ void UpdateRecord(char name[35][30],char ID[35][20],char dept[35][15],float*& gp
 void deptFilter(int &count,char searchDEPT[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
 void DeptStats(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count);
 void HighestStudent(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count);
+void Warning(char name[35][30],char ID[35][20],float* gpa,int* attandance,int count);
 void intgrow(int *&arr,int &size);
 void floatgrow(float *&arr,int &size);
 void shrink(int *&arr,int &size);
@@ -49,14 +50,12 @@ int main()
     addStudent(Name,ID,Dept,GPA,Attandance,count,gpasize,attsize,number);
     
     //=====================================================================//
-
     //===========================Function-3================================//
     
     showStudents(Name,ID,Dept,GPA,Attandance,count);
     
     //=====================================================================//
-    
-     //===========================Function-4================================//
+    //===========================Function-4================================//
     
     int choice;
     char searchname[50];
@@ -64,7 +63,6 @@ int main()
     searchStudent(choice,searchname,searchID,Name,ID,Dept,GPA,Attandance,count);
     
     //=====================================================================//
-    
     //===========================Function-5================================//
     
     
@@ -72,10 +70,24 @@ int main()
     deptFilter(searchdept,Name,ID,Dept,GPA,Attandance,count);
     
     //=====================================================================//
-
-    //===========================Function-5================================//
+    //===========================Function-6================================//
     
     RemoveStudent(Name,ID,Dept,GPA,Attandance,count,gpasize,attsize);
+    
+    //=====================================================================//
+    //===========================Function-7================================//
+    
+    HighestStudent(Name,ID,Dept,GPA,Attandance,count,gpasize,attsize);
+    
+    //=====================================================================//
+    //===========================Function-8================================//
+    
+    DeptStats(Name,ID,Dept,GPA,Attandance,count,gpasize,attsize);
+    
+    //=====================================================================//
+     //===========================Function-9================================//
+    
+    Warning(Name,ID,Dept,GPA,Attandance,count,gpasize,attsize);
     
     //=====================================================================//
 
@@ -796,4 +808,36 @@ void HighestStudent(char name[35][30],char ID[35][20],char dept[35][15],float*& 
     cout<<"GPA:        "<<gpa[maxindex]<<endl;
     cout<<"ATTANDANCE: "<<attandance[maxindex]<<endl;
 }
+
 //======================================================================================================================================//
+
+void Warning(char name[35][30],char ID[35][20],float* gpa,int* attandance,int count)
+{
+    cout<<"==========SCHOLARSHIP WARNING==========\n";
+    int warned=0;
+    for(int i=0;i<count;i++)
+    {
+        if(attandance[i]==0){
+            continue;
+        }
+        if(gpa[i]<2.0||attandance[i]<75)
+        {
+            cout<<"Student: "<<name[i]<<" ID: "<<ID[i]<<"\n";
+            if(gpa[i]<2.0)
+            {
+                cout<<"  WARNING: GPA "<<gpa[i]<<" is below 2.0\n";
+            }
+            if(attandance[i]<75)
+            {
+                cout<<"  WARNING: Attendance "<<attandance[i]<<"% is below 75%\n";
+            }
+            cout<<"---------------------------------------\n";
+            warned++;
+        }
+    }
+    if(warned==0)
+    {
+        cout<<"No Student with Low attandance or warning!!!\n";
+    }
+    cout<<"=======================================\n";
+}
