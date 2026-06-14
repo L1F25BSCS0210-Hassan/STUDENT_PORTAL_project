@@ -3,22 +3,25 @@
 #include<cstring>
 using namespace std;
 
+
+//============================================================================================================================================//
 void LoadData(ifstream &fin,char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize);
+bool login(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize);
 void addStudent(char name[35][30],char ID[35][20],char dept[35][15],float *&gpa,int*& attandance,int &count,int &gpasize,int &attsize,int& number);
 void RemoveStudent(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize);
-void showStudent(int count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
-void searchStudent(int choice,int &count,char searchNAME[],char searchID[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
+void showStudents(char NAME[][30],char ID[][20],char DEPT[][15],float *gpa,int *attandance,int count);
+void searchStudent(int &choice,char searchNAME[],char searchID[],char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count);
 void UpdateRecord(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize);
-void deptFilter(int &count,char searchDEPT[],char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[]);
+void deptFilter(char searchDEPT[],char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count);
 void DeptStats(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count);
 void HighestStudent(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count);
 int Warning(char name[35][30],char ID[35][20],float* gpa,int* attandance,int count);
 void GPAsorted(char name[35][30],char ID[35][20],char dept[35][15],float* gpa,int* attandance,int count);
 void dataSaver(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize,int number);
-void AdminMenu();
-void AdminOptions(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize);
+void adminMenu();
 void studentMenu();
-void StudentOptions(char name[35][30],char ID[35][20],float*& gpa,int*& attandance,int& count);
+void AdminOptions(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize);
+void StudentOptions(char name[35][30],char ID[35][20],float*& gpa,int*& attandance,int& count,char username[]);
 void intgrow(int *&arr,int &size);
 void floatgrow(float *&arr,int &size);
 void intshrink(int*& arr, int& size);
@@ -28,88 +31,38 @@ void shiftleft2(float* arr,int size,int target);
 void swapint(int &a,int &b);
 void swapfloat(float &a,float &b);
 void swapchar(char a[],char b[]);
-bool login(ifstream &fin,char *username,char *password,char &role);
+//============================================================================================================================================//
 
 
 
 int main()
 {
-    //===========================Function-1================================//
-    
     ifstream fin;
     int gpasize,count,attsize;
     char Name[35][30];
     char ID[35][20];
     char Dept[35][15];
-    float *GPA;
-    int *Attandance;
+    float *GPA=NULL;
+    int *Attandance=NULL;
     
     LoadData(fin,Name,ID,Dept,GPA,Attandance,count,gpasize,attsize);
     
+    if(login(Name,ID,Dept,GPA,Attandance,count,gpasize,attsize))
+    {
+        cout<<"ACCESS GRANTED\n";
+    }
+    else
+    {
+        cout<<"ACCESS DENIED\n";
+    }
+    
     delete[] GPA;
-    delete[] Attandance;  //have to move it at the very last
-    
-    //=====================================================================//
-    //===========================Function-2================================//
-    
-    int number;
-    addStudent(Name,ID,Dept,GPA,Attandance,count,gpasize,attsize,number);
-    
-    //=====================================================================//
-    //===========================Function-3================================//
-    
-    showStudents(Name,ID,Dept,GPA,Attandance,count);
-    
-    //=====================================================================//
-    //===========================Function-4================================//
-    
-    int choice;
-    char searchname[50];
-    char searchID[50];
-    searchStudent(choice,searchname,searchID,Name,ID,Dept,GPA,Attandance,count);
-    
-    //=====================================================================//
-    //===========================Function-5================================//
-    
-    char searchdept[50];
-    deptFilter(searchdept,Name,ID,Dept,GPA,Attandance,count);
-    
-    //=====================================================================//
-    //===========================Function-6================================//
-    
-    RemoveStudent(Name,ID,Dept,GPA,Attandance,count,gpasize,attsize);
-    
-    //=====================================================================//
-    //===========================Function-7================================//
-    
-    HighestStudent(Name,ID,Dept,GPA,Attandance,count,gpasize,attsize);
-    
-    //=====================================================================//
-    //===========================Function-8================================//
-    
-    DeptStats(Name,ID,Dept,GPA,Attandance,count,gpasize,attsize);
-    
-    //=====================================================================//
-    //===========================Function-9================================//
-    
-    int warned=Warning(Name,ID,Dept,GPA,Attandance,count,gpasize,attsize);
-    cout<<"The Number of Students getting the warning are: "<<warned<<endl;
-    
-    //=====================================================================//
-
-    //===========================Function-10================================//
-    
-    GPAsorted(Name,ID,Dept,GPA,Attandance,count,gpasize,attsize);
-    
-    //=====================================================================//
-
-
-
+    delete[] Attandance;
     return 0;
 }
 
+//============================================================================================================================================//
 
-//===============================================================================================================================================//
 void LoadData(ifstream &fin,char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize)
 {
     fin.open("students.txt");
@@ -143,35 +96,71 @@ void LoadData(ifstream &fin,char name[35][30],char ID[35][20],char dept[35][15],
         count++;
     }
 }
+
 //============================================================================================================================================//
-void dataSaver(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize,int number)
+
+bool login(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize)
 {
-    ofstream fout1;
-    ofstream fout2;
-    char USERNAME[50];
-    char PASS[50];
+    char username[50];
+    char password[50];
+    char fileUser[50];
+    char filePass[50];
+    char fileRole;
+    bool found=false;
+    char role;
     
-    fout1.open("students.txt",ios::app);
-    fout2.open("users.txt",ios::app);
-    
-    
-    fout1<<name[count]<<" "<<ID[count]<<" "<<dept[count]<<" "<<gpa[count]<<" "<< 0<<endl;
+    cout<<"==========================STUDENT PORTAL SYSTEM======================\n";
+    for(int attempt=3;attempt>0;attempt--)
+    {
+        cout<<"Enter username: ";
+        cin>>username;
+        cout<<"Enter password: ";
+        cin>>password;
         
+        ifstream fin;
+        fin.open("users.txt");
         
-    cout<<"Enter the Student's Username: ";
-    cin>>USERNAME;
+        while(fin>>fileUser>>filePass>>fileRole)
+        {
+            if(strcmp(username,fileUser)==0&&strcmp(password,filePass)==0)
+            {
+                found=true;
+                role=fileRole;
+                break;
+            }
+        }
+        fin.close();
         
-    cout<<"Decide the Student's PASSWORD: ";
-    cin>>PASS;
+        if(found)
+        {
+            cout<<"LOGIN SUCCESSFUL\n";
+            break;
+        }
         
-    fout2<<USERNAME<<" "<<PASS<<" S"<<endl;
+        cout<<"Wrong credentials. Attempts left: "<<(attempt-1)<<"\n";
+    }
     
+    if(!found)
+    {
+        cout<<"ACCOUNT BLOCKED AFTER 3 FAILED ATTEMPTS\n";
+        return false;
+    }
     
-    fout1.close();
-    fout2.close();
+    if(role=='A')
+    {
+        AdminOptions(name,ID,dept,gpa,attandance,count,gpasize,attsize);
+    }
+    else if(role=='S')
+    {
+        StudentOptions(name,ID,gpa,attandance,count,username);  
+    }
+    
+    return true;
 }
 
-//===============================================================================================================================================//
+//============================================================================================================================================//
+
+
 void addStudent(char name[35][30],char ID[35][20],char dept[35][15],float *&gpa,int*& attandance,int &count,int &gpasize,int &attsize,int &number)
 {
     cout<<"Enter the number of STUDENTS you want to add: ";
@@ -209,7 +198,7 @@ void addStudent(char name[35][30],char ID[35][20],char dept[35][15],float *&gpa,
 
 //======================================================================================================================================//
 
-void showStudent(int count,char NAME[][30],char DEPT[][25],char ID[][25],float CGPA[])
+void showStudents(char NAME[][30],char ID[][20],char DEPT[][15],float *gpa,int *attandance,int count)
 {
     if(count==0)
     {
@@ -243,7 +232,13 @@ void showStudent(int count,char NAME[][30],char DEPT[][25],char ID[][25],float C
         
         cout<<" : ";
         cout.precision(2);
-        cout<<CGPA[i]<<endl;
+        cout<<gpa[i]<<endl;
+        cout<<endl;
+        
+        cout<<left<<"Student's ATTANDANCE ";
+        
+        cout<<" : ";
+        cout<<attandance[i]<<endl;
         cout<<endl;
     }
     cout<<"===================================================";
@@ -436,11 +431,13 @@ void searchStudent(int &choice,char searchNAME[50],char searchID[50],char name[3
     }
 }
 
-void deptFilter(char searchDEPT[50],char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int count)
+//======================================================================================================================================//
+
+void deptFilter(char searchDEPT[],char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count)
 {
     cout<<"=================STUDENTS OF THE DEPT=================\n";
     cout<<"Enter the department to filter students: \n";
-    cin.getline(searchDEPT,50);
+    cin>>searchDEPT;
     int j=0;
     for(int j = 0; searchDEPT[j] != '\0'; j++)
     {
@@ -485,202 +482,38 @@ void deptFilter(char searchDEPT[50],char name[35][30],char ID[35][20],char dept[
     }     
 }
 
-//======================================================================================================================================//
-void floatgrow(float *&arr,int &size)
-{
-    float *temp=new float[size+1];
-    for(int i=0;i<size;i++)
-    {
-        temp[i]=arr[i];
-    }
-    delete[] arr;
-    arr=temp;
-    size++;
-}
 
-//======================================================================================================================================//
-void intgrow(int *&arr,int &size)
-{
-    int *temp=new int[size+1];
-    for(int i=0;i<size;i++)
-    {
-        temp[i]=arr[i];
-    }
-    delete[] arr;
-    arr=temp;
-    size++;
-}
 
 //======================================================================================================================================//
 
-void shrink(int *&arr,int &size)
-{
-    int *temp=new int[size-11];
-    for(int i=0;i<size-1;i++)
-    {
-        temp[i]=arr[i];
-    }
-    delete[] arr;
-    arr=temp;
-    size--;
-}
-
-//======================================================================================================================================//
-
-void shiftleft1(int* arr,int size,int target)
-{
-    for(int i=target;i<size-1;i++)
-    {
-        arr[i]=arr[i+1];
-    }
-}
-
-//======================================================================================================================================//
-
-void shiftleft2(float* arr,int size,int target)
-{
-    for(int i=target;i<size-1;i++)
-    {
-        arr[i]=arr[i+1];
-    }
-}
-
-//======================================================================================================================================//
-
-void swapint(int &a,int &b)
-{
-    int t=a;
-    a=b;
-    b=t;
-}
-//======================================================================================================================================//
-
-void swapfloat(float &a,float &b)
-{
-    float t=a;
-    a=b;
-    b=t;
-}
-
-//======================================================================================================================================//
-
-void swapchar(char a[],char b[])
-{
-    char t[30];
-    strcpy(t,a);
-    strcpy(a,b);
-    strcpy(b,t);
-}
-
-//======================================================================================================================================//
-
-void floatshrink(float*& arr, int& size)
-{
-    float* temp=new float[size-1];
-    for(int i=0;i<size-1;i++)
-    {
-        temp[i]=arr[i];
-    }
-    delete[] arr;
-    arr=temp;
-    size--;
-}
-
-//======================================================================================================================================//
-
-void intshrink(int*& arr, int& size)
-{
-    int* temp=new int[size-1];
-    for(int i=0;i<size-1;i++)
-    {
-        temp[i]=arr[i];
-    }
-    delete[] arr;
-    arr=temp;
-    size--;
-}
-
-//======================================================================================================================================//
-bool login(ifstream &fin, char *username, char *password, char &role)
-{
-    char fileUser[20];
-    char filePass[20];
-    char fileRole;
-
-    for(int attempt = 3; attempt > 0; attempt--)
-    {
-        cout << "Enter username: ";
-        cin >> username;
-
-        cout << "Enter password: ";
-        cin >> password;
-
-        fin.open("users.txt");
-
-        if(!fin)
-        {
-            cout << "File not found!\n";
-            return false;
-        }
-
-        bool found = false;
-
-        while(fin >> fileUser >> filePass >> fileRole)
-        {
-            if(strcmp(username,fileUser)==0 &&
-               strcmp(password,filePass)==0)
-            {
-                found = true;
-                role = fileRole;
-                break;
-            }
-        }
-
-        fin.close();
-
-        if(found)
-        {
-            cout << "LOGIN SUCCESSFUL\n";
-            return true;
-        }
-
-        cout << "Wrong credentials. Attempts left: "
-             << (attempt - 1) << "\n";
-    }
-
-    cout << "ACCOUNT HAS BEEN BLOCKED AFTER 3 FAILED ATTEMPTS\n";
-    return false;
-}
-
-//======================================================================================================================================//
 
 void adminMenu()
 {
-    cout << "\n===== ADMIN PORTAL =====\n";
-    cout << "1. Add Student\n";
-    cout << "2. Delete Student\n";
-    cout << "3. Update Student\n";
-    cout << "4. Search Student\n";
-    cout << "5. Display All Students\n";
-    cout << "6. Department-wise Filter\n";
-    cout << "7. Sort Students by GPA\n";
-    cout << "8. Show Highest GPA Student\n";
-    cout << "9. Scholarship / Warning System\n";
-    cout << "10. Department Statistics\n";
-    cout << "12. Logout\n";
+    cout<<"\n===== ADMIN PORTAL =====\n";
+    cout<<"1. Add Student\n";
+    cout<<"2. Show Students\n";
+    cout<<"3. Search Student\n";
+    cout<<"4. Department Filter\n";
+    cout<<"5. Update Record\n";
+    cout<<"6. Remove Student\n";
+    cout<<"7. Department Stats\n";
+    cout<<"8. Highest GPA Student\n";
+    cout<<"9. Scholarship Warning\n";
+    cout<<"10. Sort by GPA\n";
+    cout<<"0. Logout\n";
 }
 
 //======================================================================================================================================//
 
 void studentMenu()
 {
-    cout << "\n===== STUDENT PORTAL =====\n";
     cout << "1. View GPA\n";
     cout << "2. View Attendance\n";
     cout << "3. Logout\n";
 }
 
 //======================================================================================================================================//
+
 void UpdateRecord(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize)
 {
 
@@ -799,11 +632,11 @@ void DeptStats(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,i
     
     cout<<"INFORMATION TECHNOLOGY:\n";
     cout<<"TOTAL NUMBER of STUDENTS: "<<it<<endl;
-    cout<<"AVERAGE GPA OF SE DEPT IS: "<<itavg<<endl;
+    cout<<"AVERAGE GPA OF IT DEPT IS: "<<itavg<<endl;
     
     cout<<"COMPUTER SCIENCE:\n";
     cout<<"TOTAL NUMBER of STUDENTS: "<<cs<<endl;
-    cout<<"AVERAGE GPA OF SE DEPT IS: "<<csavg<<endl;
+    cout<<"AVERAGE GPA OF CS DEPT IS: "<<csavg<<endl;
     cout<<"==========================================================\n";
     
 }
@@ -906,7 +739,7 @@ void GPAsorted(char name[35][30],char ID[35][20],char dept[35][15],float* gpa,in
             {
                 for(int j=0;j<count-1-i;j++)
                 {
-                    if(tempgpa[j]<tempgpa[j+1])
+                    if(tempgpa[j]>tempgpa[j+1])
                     {
                         swapchar(tempname[j],tempname[j+1]);
                         swapchar(tempid[j],tempid[j+1]);
@@ -944,7 +777,7 @@ void GPAsorted(char name[35][30],char ID[35][20],char dept[35][15],float* gpa,in
             {
                 for(int j=0;j<count-1-i;j++)
                 {
-                    if(tempgpa[j]>tempgpa[j+1])
+                    if(tempgpa[j]<tempgpa[j+1])
                     {
                         swapchar(tempname[j],tempname[j+1]);;
                         swapchar(tempid[j],tempid[j+1]);
@@ -979,16 +812,23 @@ void GPAsorted(char name[35][30],char ID[35][20],char dept[35][15],float* gpa,in
         }
     }while(choice!=3 && !(ascdone&&descdone));
 }
-void StudentOptions(char name[35][30],char ID[35][20],float*& gpa,int*& attandance,int& count)
+
+//======================================================================================================================================//
+
+void StudentOptions(char name[35][30],char ID[35][20],float*& gpa,int*& attandance,int& count,char username[])
 {
-    int choice;
-    char search[50];
-    cout<<"Enter your ID to search : ";
-    cin>>search;
+    char loggedID[50];
+    int j=0;
+    for(j=0;username[j]!='@';j++)
+    {
+        loggedID[j]=username[j];
+    }
+    loggedID[j]='\0';
+    
     int target=-1;
     for(int i=0;i<count;i++)
     {
-        if(strcmp(search,ID[i])==0)
+        if(strcmp(loggedID,ID[i])==0)
         {
             target=i;
             break;
@@ -1000,6 +840,8 @@ void StudentOptions(char name[35][30],char ID[35][20],float*& gpa,int*& attandan
         cout<<"STUDENT NOT FOUND!!!\n";
         return;
     }
+    
+    int choice;
     do
     {
         studentMenu();
@@ -1009,21 +851,20 @@ void StudentOptions(char name[35][30],char ID[35][20],float*& gpa,int*& attandan
             case 1:
                 cout<<"Your GPA is: "<<gpa[target]<<endl;
                 break;
-            
             case 2:
                 cout<<"Your Attendance is: "<<attandance[target]<<endl;
                 break;
-                
             case 3:
-                cout<<"LOGGING oUT!!!\n";
+                cout<<"LOGGING OUT!!!\n";
                 break;
-                
             default:
                 cout<<"Invalid option...\n";
         }
-        
     }while(choice!=3);
 }
+
+//======================================================================================================================================//
+
 void AdminOptions(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize)
 {
     int choice;
@@ -1087,3 +928,149 @@ void AdminOptions(char name[35][30],char ID[35][20],char dept[35][15],float*& gp
         }
     }while(choice!=0);
 }
+
+//======================================================================================================================================//
+
+void dataSaver(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,int*& attandance,int& count,int& gpasize,int& attsize,int number)
+{
+    ofstream fout1;
+    ofstream fout2;
+    char USERNAME[50];
+    char PASS[50];
+    
+    fout1.open("students.txt",ios::app);
+    fout2.open("users.txt",ios::app);
+    
+    
+    fout1<<name[count]<<" "<<ID[count]<<" "<<dept[count]<<" "<<gpa[count]<<" "<< 0<<endl;
+        
+        
+    cout<<"Enter the Student's Username: ";
+    cin>>USERNAME;
+        
+    cout<<"Decide the Student's PASSWORD: ";
+    cin>>PASS;
+        
+    fout2<<USERNAME<<" "<<PASS<<" S"<<endl;
+    
+    
+    fout1.close();
+    fout2.close();
+}
+
+//======================================================================================================================================//
+void floatgrow(float *&arr,int &size)
+{
+    float *temp=new float[size+1];
+    for(int i=0;i<size;i++)
+    {
+        temp[i]=arr[i];
+    }
+    delete[] arr;
+    arr=temp;
+    size++;
+}
+
+//======================================================================================================================================//
+void intgrow(int *&arr,int &size)
+{
+    int *temp=new int[size+1];
+    for(int i=0;i<size;i++)
+    {
+        temp[i]=arr[i];
+    }
+    delete[] arr;
+    arr=temp;
+    size++;
+}
+
+//======================================================================================================================================//
+
+void shrink(int *&arr,int &size)
+{
+    int *temp=new int[size-1];
+    for(int i=0;i<size-1;i++)
+    {
+        temp[i]=arr[i];
+    }
+    delete[] arr;
+    arr=temp;
+    size--;
+}
+
+//======================================================================================================================================//
+
+void shiftleft1(int* arr,int size,int target)
+{
+    for(int i=target;i<size-1;i++)
+    {
+        arr[i]=arr[i+1];
+    }
+}
+
+//======================================================================================================================================//
+
+void shiftleft2(float* arr,int size,int target)
+{
+    for(int i=target;i<size-1;i++)
+    {
+        arr[i]=arr[i+1];
+    }
+}
+
+//======================================================================================================================================//
+
+void swapint(int &a,int &b)
+{
+    int t=a;
+    a=b;
+    b=t;
+}
+//======================================================================================================================================//
+
+void swapfloat(float &a,float &b)
+{
+    float t=a;
+    a=b;
+    b=t;
+}
+
+//======================================================================================================================================//
+
+void swapchar(char a[],char b[])
+{
+    char t[30];
+    strcpy(t,a);
+    strcpy(a,b);
+    strcpy(b,t);
+}
+
+//======================================================================================================================================//
+
+void floatshrink(float*& arr, int& size)
+{
+    float* temp=new float[size-1];
+    for(int i=0;i<size-1;i++)
+    {
+        temp[i]=arr[i];
+    }
+    delete[] arr;
+    arr=temp;
+    size--;
+}
+
+//======================================================================================================================================//
+
+void intshrink(int*& arr, int& size)
+{
+    int* temp=new int[size-1];
+    for(int i=0;i<size-1;i++)
+    {
+        temp[i]=arr[i];
+    }
+    delete[] arr;
+    arr=temp;
+    size--;
+}
+
+//======================================================================================================================================//
