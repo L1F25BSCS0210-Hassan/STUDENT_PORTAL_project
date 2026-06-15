@@ -618,9 +618,9 @@ void DeptStats(char name[35][30],char ID[35][20],char dept[35][15],float*& gpa,i
         }
     }
     
-    float seavg;
-    float itavg;
-    float csavg;
+    float seavg=0;
+    float itavg=0;
+    float csavg=0;
     if(cs!=0) csavg=sum3/cs;
     if(it!=0) itavg=sum2/it;
     if(se!=0) seavg=sum1/se;
