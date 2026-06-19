@@ -4,7 +4,7 @@
 using namespace std;
 
 
-//============================================================================================================================================//
+//====================================================================================================================================================//
 void LoadData(ifstream& fin, char name[35][30], char ID[35][20], char dept[35][15], float*& gpa, int*& attandance, int& count, int& gpasize, int& attsize);
 bool login(char name[35][30], char ID[35][20], char dept[35][15], float*& gpa, int*& attandance, int& count, int& gpasize, int& attsize);
 void addStudent(char name[35][30], char ID[35][20], char dept[35][15], float*& gpa, int*& attandance, int& count, int& gpasize, int& attsize, int& number);
@@ -32,26 +32,9 @@ void swapint(int& a, int& b);
 void swapfloat(float& a, float& b);
 void swapchar(char a[], char b[]);
 void strcpys(char dest[], char source[]);
-void strcats(char dest[], char source[])
-{
-    int i = 0;
-    int j = 0;
+void strcats(char dest[], char source[]);
 
-    while (dest[i] != '\0')
-    {
-        i++;
-    }
-
-    while (source[j] != '\0')
-    {
-        dest[i] = source[j];
-        i++;
-        j++;
-    }
-
-    dest[i] = '\0';
-}
-//============================================================================================================================================//
+//====================================================================================================================================================//
 
 
 
@@ -77,7 +60,9 @@ int main()
     }
 
     delete[] GPA;
+    GPA = NULL;
     delete[] Attandance;
+    Attandance = nullptr;
     return 0;
 }
 
@@ -137,6 +122,7 @@ bool login(char name[35][30], char ID[35][20], char dept[35][15], float*& gpa, i
         cin >> username;
         cout << "Enter password: ";
         cin >> password;
+
 
         ifstream fin;
         fin.open("users.txt");
@@ -254,7 +240,6 @@ void showStudents(char NAME[][30], char ID[][20], char DEPT[][15], float* gpa, i
         cout << " : ";
         cout.precision(2);
         cout << gpa[i] << endl;
-        cout << endl;
 
         cout << left << "Student's ATTANDANCE ";
 
@@ -857,6 +842,7 @@ void StudentOptions(char name[35][30], char ID[35][20], float*& gpa, int*& attan
         cout << "STUDENT NOT FOUND!!!\n";
         return;
     }
+    cout << name[target] << " " << ID[target] << endl;
 
     int choice;
     do
@@ -930,14 +916,14 @@ void AdminOptions(char name[35][30], char ID[35][20], char dept[35][15], float*&
 
         case 9:
             int ab;
-            ab=Warning(name, ID, gpa, attandance, count);
-            if(ab==0)
+            ab = Warning(name, ID, gpa, attandance, count);
+            if (ab == 0)
             {
                 cout << "No Student with Low attandance or warning!!!\n";
             }
             else
             {
-                cout<<"Number of Students with low gpa or attandance are : " << ab << endl;
+                cout << "Number of Students with low gpa or attandance are : " << ab << endl;
             }
             break;
 
@@ -1108,6 +1094,27 @@ void strcpys(char dest[], char source[])
     {
         dest[i] = source[i];
     }
+    dest[i] = '\0';
+}
+
+//======================================================================================================================================//
+void strcats(char dest[], char source[])
+{
+    int i = 0;
+    int j = 0;
+
+    while (dest[i] != '\0')
+    {
+        i++;
+    }
+
+    while (source[j] != '\0')
+    {
+        dest[i] = source[j];
+        i++;
+        j++;
+    }
+
     dest[i] = '\0';
 }
 
